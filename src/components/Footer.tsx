@@ -1,99 +1,52 @@
-import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { FacebookIcon, InstagramIcon, XIcon } from "lucide-react";
 
-const socialIcons = [
-  { icon: Facebook, label: "Facebook" },
-  { icon: Twitter, label: "Twitter" },
-  { icon: Instagram, label: "Instagram" },
-  { icon: Linkedin, label: "LinkedIn" }
-];
 
 export const Footer = () => {
   return (
-    <footer className="bg-gray-900 py-16 text-white">
-      <div className="mx-auto grid max-w-6xl gap-12 px-6 sm:px-8 lg:grid-cols-5 lg:px-10">
-        <div className="flex flex-col gap-4">
-          <h3 className="text-2xl font-semibold">Exclusive</h3>
-          <p className="text-sm text-gray-300">Subscribe</p>
-          <p className="text-sm text-gray-500">Get 10% off your first order</p>
-          <form className="flex gap-2">
-            <label className="sr-only" htmlFor="email">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 rounded-md bg-gray-800 px-3 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#DB4444]"
-            />
-            <button
-              type="submit"
-              className="rounded-md bg-[#DB4444] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#c03b3b]"
-            >
-              Join
-            </button>
-          </form>
-        </div>
-
-        <div className="flex flex-col gap-3">
-          <h4 className="text-lg font-semibold">Support</h4>
-          <p className="flex items-start gap-2 text-sm text-gray-400">
-            <MapPin className="mt-0.5 h-4 w-4" /> 111 Bijoy sarani, Dhaka, DH 1515, Bangladesh.
-          </p>
-          <p className="flex items-center gap-2 text-sm text-gray-400">
-            <Mail className="h-4 w-4" /> exclusive@gmail.com
-          </p>
-          <p className="flex items-center gap-2 text-sm text-gray-400">
-            <Phone className="h-4 w-4" /> +88015-88888-9999
-          </p>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <h4 className="text-lg font-semibold">Account</h4>
-          <a className="text-sm text-gray-400 transition hover:text-white">My Account</a>
-          <a className="text-sm text-gray-400 transition hover:text-white">Login / Register</a>
-          <a className="text-sm text-gray-400 transition hover:text-white">Cart</a>
-          <a className="text-sm text-gray-400 transition hover:text-white">Wishlist</a>
-          <a className="text-sm text-gray-400 transition hover:text-white">Shop</a>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <h4 className="text-lg font-semibold">Quick Link</h4>
-          <a className="text-sm text-gray-400 transition hover:text-white">Privacy Policy</a>
-          <a className="text-sm text-gray-400 transition hover:text-white">Terms Of Use</a>
-          <a className="text-sm text-gray-400 transition hover:text-white">FAQ</a>
-          <a className="text-sm text-gray-400 transition hover:text-white">Contact</a>
-        </div>
-
-        <div className="flex flex-col gap-4">
-          <div>
-            <h4 className="text-lg font-semibold">Download App</h4>
-            <p className="text-xs text-gray-500">Save $3 with App New User Only</p>
-          </div>
-          <div className="flex gap-3">
-            <div className="flex h-20 w-20 items-center justify-center rounded-md border border-gray-700">
-              <img src="/assets/ecommerce/apple-logo.png" alt="QR" className="h-12 w-12" />
+    <footer className="bg-black text-white mt-20">
+        <div className="container mx-auto px-4 py-20">
+          <div className="flex justify-between">
+            <div className="space-y-6 ml-50">
+              <h3 className="text-2xl font-bold">SHOPBE</h3>
+              <div className="space-y-4 w-60 text-gray-300">
+                <p>273 An Dương Vương, Phường Chợ Quán, Hồ Chí Minh.</p>
+                <p>shopbe@gmail.com</p>
+                <p>0936 018 360</p>
+              </div>
             </div>
-            <div className="flex flex-col gap-3">
-              <button className="rounded-md bg-white px-4 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-200">
-                Google Play
-              </button>
-              <button className="rounded-md bg-white px-4 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-200">
-                App Store
-              </button>
+
+            {/* <div className="space-y-6">
+              <h4 className="text-xl">Account</h4>
+              <div className="space-y-4 text-gray-300">
+                <p className="cursor-pointer hover:text-white">My Account</p>
+                <p className="cursor-pointer hover:text-white">Login / Register</p>
+                <p className="cursor-pointer hover:text-white">Cart</p>
+                <p className="cursor-pointer hover:text-white">Wishlist</p>
+                <p className="cursor-pointer hover:text-white">Shop</p>
+              </div>
+            </div> */}
+
+            <div className="space-y-6">
+              
+            </div>
+
+            <div className="space-y-6 mr-50">
+              <h4 className="text-xl">Chính sách và hỗ trợ</h4>
+              <div className="space-y-4 text-gray-300">
+                <p className="cursor-pointer hover:text-white">Chính sách bảo mật</p>
+                <p className="cursor-pointer hover:text-white">Liên hệ</p>
+                <p className="cursor-pointer hover:text-white">Về chúng tôi</p>
+              </div>
+
+                    
+              <div className="flex gap-6 mt-6">
+                <FacebookIcon className="w-6 h-6 cursor-pointer" />
+                <InstagramIcon className="w-6 h-6 cursor-pointer" />
+                <XIcon className="w-6 h-6 cursor-pointer" />
+              </div>
             </div>
           </div>
-          <div className="flex gap-4 text-gray-400">
-            {socialIcons.map(({ icon: Icon, label }) => (
-              <a key={label} className="transition hover:text-white" aria-label={label}>
-                <Icon className="h-5 w-5" />
-              </a>
-            ))}
-          </div>
         </div>
-      </div>
-      <div className="mt-12 border-t border-white/10 pt-6 text-center text-xs text-gray-500">
-        © {new Date().getFullYear()} Exclusive. All rights reserved.
-      </div>
-    </footer>
+      </footer>
   );
 };
