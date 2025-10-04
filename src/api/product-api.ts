@@ -95,7 +95,7 @@ export const PRODUCTS_LIST_FRAGMENT = `
   }
 `;
 
-export type GetProductsOptions = {
+export type ProductsOptions = {
   collectionHandle?: string;
   searchTerm?: string;
   minPrice?: number;
@@ -103,10 +103,12 @@ export type GetProductsOptions = {
   sortKey?: 'TITLE' | 'PRICE' | 'CREATED_AT' | 'RELEVANCE';
   reverse?: boolean;
   first?: number;
+  last?: number; 
   after?: string;
+  before?: string;
 };
 
-export async function getProducts(options: GetProductsOptions = {}) {
+export async function getProducts(options: ProductsOptions = {}) {
   const filters: string[] = [];
   
   if (options.searchTerm) {
@@ -127,18 +129,24 @@ export async function getProducts(options: GetProductsOptions = {}) {
       $sortKey: ProductCollectionSortKeys, 
       $reverse: Boolean,
       $first: Int,
-      $after: String
+      $last: Int,
+      $after: String,
+      $before: String
     ) {
       collection(handle: $handle) {
         products(
           first: $first, 
+          last: $last,
           after: $after, 
+          before: $before,
           sortKey: $sortKey, 
           reverse: $reverse
           ${filterQueryString}
         ) {
           pageInfo {
             hasNextPage
+            hasPreviousPage
+            startCursor
             endCursor
           }
           edges {
@@ -157,12 +165,15 @@ export async function getProducts(options: GetProductsOptions = {}) {
     handle: options.collectionHandle || 'all',
     sortKey: options.sortKey || 'RELEVANCE',
     reverse: options.reverse || false,
-    first: options.first || 12,
+    first: options.before ? null : (options.first || 12),
+    last: options.before ? (options.last || 12) : null,
     after: options.after || null,
+    before: options.before || null,
   };
   
   try {
     const response = await storeFront(query, variables);
+    console.log(response);
     return response.data?.collection?.products;
   } catch (error) {
     console.error("Lỗi khi lấy danh sách sản phẩm:", { options, error });

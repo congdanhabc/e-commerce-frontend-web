@@ -7,6 +7,8 @@ export default function NotFoundPage () {
     const buttonLink = '/'
     const type = 'error';
     return (
-        <Notification title={title} description={description} buttonText={buttonText} buttonLink={buttonLink} type={type}></Notification>
+        <div className="min-h-screen">
+            <Notification title={title} description={description} buttonText={buttonText} buttonLink={buttonLink} type={type}></Notification>
+        </div>
     );
 }

@@ -1,19 +1,34 @@
 import { Heart, ShoppingCart, Search, User } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
+const navigations = [
+  {label: 'Trang chủ', href: '/'},
+  {label: 'Sản phẩm', href: '/products'},
+  {label: 'Liên hệ', href: '/contact'},
+  {label: 'Về chúng tôi', href: '/aboutus'},
+]
+  
 
 export const Header = () => {
+  const location = useLocation();
   return (
     <header className="border-b sticky top-0 bg-white z-100">
         <div className="container mx-auto px-4 py-6 flex items-center justify-between">
           <div className="flex items-center gap-40">
             <h1 className="text-2xl font-bold">SHOPBE</h1>
             <nav className="hidden md:flex items-center gap-12">
-              <div className="flex flex-col items-center">
-                <span className="cursor-pointer font-bold">Trang chủ</span>
-                <div className="w-12 h-0.5 bg-black mt-1"></div>
-              </div>
-              <span className="cursor-pointer hover:text-red-600 transition-colors duration-300">Liên hệ</span>
-              <span className="cursor-pointer hover:text-red-600 transition-colors duration-300">Về chúng tôi</span>
+              {
+                navigations.map((nav) => (
+                  (location.pathname == nav.href) ? 
+                  (
+                    <div className="flex flex-col items-center">
+                      <Link to={nav.href} className="cursor-pointer font-bold">{nav.label}</Link>
+                      <div className="w-12 h-0.5 bg-black mt-1"></div>
+                    </div>
+                  ) : (
+                    <Link to={nav.href} className="cursor-pointer hover:text-red-600 transition-colors duration-300">{nav.label}</Link>
+                  )      
+                ))}
             </nav>
           </div>
           

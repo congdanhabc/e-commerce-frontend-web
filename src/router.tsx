@@ -2,7 +2,8 @@ import { type RouteObject, createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import NotFoundPage from "./pages/notFound";
 import HelloWorldPage from "./pages/helloWorld";
-import ProductDetailPage from "./pages/productDetail";
+import ProductDetailPage from "./pages/product/productDetailPage";
+import ProductListPage from "./pages/product/productListPage";
 
 const routes: RouteObject[] = [
     {
@@ -11,13 +12,21 @@ const routes: RouteObject[] = [
         errorElement: <NotFoundPage />,
         children:[
             {
+                path: "/",
+                element: <HelloWorldPage />,
+            },
+            {
                 path: "/helloWorld",
                 element: <HelloWorldPage />,
             },
             {
+                path: "/products",
+                element: <ProductListPage />,
+            },
+            {
                 path: "/products/:handle",
                 element: <ProductDetailPage />,
-            }
+            },
         ],
     },
 ];

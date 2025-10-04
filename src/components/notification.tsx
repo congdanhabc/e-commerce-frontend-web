@@ -49,16 +49,10 @@ function Notification ({ title, description, buttonText, buttonLink, type }: Not
   const IconComponent = config.icon;
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="h-130 bg-gray-50 flex flex-col">
       {/* Main content */}
-      <div className="flex-1 flex flex-col justify-center items-center px-4 py-12">
+      <div className="flex-1 flex flex-col justify-center items-center px-4 py-4">
         <div className="w-full max-w-2xl flex flex-col items-center gap-8">
-          {/* Logo */}
-          {/* <div className="flex items-center">
-              <div className="h-30 w-30">
-                  <img src='storage/images/icons/book_store.ico' ></img>
-              </div>
-          </div> */}
 
           {/* Notification card */}
           <div className={`w-full max-w-lg ${config.bgColor} border ${config.borderColor} rounded-3xl p-10 md:p-14 text-center`}>
