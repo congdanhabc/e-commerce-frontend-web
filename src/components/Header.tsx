@@ -1,5 +1,6 @@
 import { Heart, ShoppingCart, Search, User } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const navigations = [
   {label: 'Trang chủ', href: '/'},
@@ -11,6 +12,20 @@ const navigations = [
 
 export const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("shopify_token");
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("shopify_token");
+    setIsLoggedIn(false);
+    navigate("/login");
+  };
+
   return (
     <header className="border-b sticky top-0 bg-white z-100">
         <div className="container mx-auto px-4 py-6 flex items-center justify-between">
@@ -62,6 +77,34 @@ export const Header = () => {
                 <User className="w-8 h-8 group-hover:w-5 group-hover:h-5 group-hover:text-white transition-all duration-600 ease-in-out" />
               </div>
             </Link>
+            
+            <div className="flex items-center gap-4">
+              {isLoggedIn ? (
+                <button
+                  onClick={handleLogout}
+                  className="text-sm font-medium text-red-600 hover:underline transition"
+                >
+                  Đăng xuất
+                </button>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="text-sm font-medium hover:text-red-500 transition-colors"
+                  >
+                    Đăng nhập
+                  </Link>
+                  <span className="text-gray-400">|</span>
+                  <Link
+                    to="/register"
+                    className="text-sm font-medium hover:text-red-500 transition-colors"
+                  >
+                    Đăng ký
+                  </Link>
+                </>
+              )}
+            </div>
+
           </div>
         </div>
       </header>

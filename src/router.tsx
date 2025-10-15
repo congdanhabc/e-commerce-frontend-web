@@ -4,16 +4,27 @@ import NotFoundPage from "./pages/notFound";
 import HelloWorldPage from "./pages/helloWorld";
 import ProductDetailPage from "./pages/product/productDetailPage";
 import ProductListPage from "./pages/product/productListPage";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 const routes: RouteObject[] = [
     {
+        path: "/login",
+        element: <Login />,
+    },
+    {
+        path: "/register",
+        element: <Register />,
+    },
+    {
+        
         path: "/",
         element: <App />,
         errorElement: <NotFoundPage />,
         children:[
             {
                 path: "/",
-                element: <HelloWorldPage />,
+                element: <ProductListPage />,
             },
             {
                 path: "/helloWorld",
