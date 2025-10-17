@@ -98,6 +98,7 @@ export const PRODUCTS_LIST_FRAGMENT = `
 export type ProductsOptions = {
   collectionHandle?: string;
   searchTerm?: string;
+  tags?: string[];
   minPrice?: number;
   maxPrice?: number;
   sortKey?: 'TITLE' | 'PRICE' | 'CREATED_AT' | 'RELEVANCE';
@@ -119,6 +120,11 @@ export async function getProducts(options: ProductsOptions = {}) {
   }
   if (options.maxPrice) {
     filters.push(`(variants.price:<=${options.maxPrice})`);
+  }
+
+  if (options.tags && options.tags.length > 0) {
+    const tagFilters = options.tags.map(tag => `(tag:'${tag}')`).join(' OR ');
+    filters.push(`(${tagFilters})`);
   }
 
   const filterQueryString = filters.length > 0 ? `, query: "${filters.join(' AND ')}"` : '';

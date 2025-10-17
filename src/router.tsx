@@ -9,14 +9,6 @@ import Register from "./pages/Register";
 
 const routes: RouteObject[] = [
     {
-        path: "/login",
-        element: <Login />,
-    },
-    {
-        path: "/register",
-        element: <Register />,
-    },
-    {
         
         path: "/",
         element: <App />,
@@ -37,6 +29,14 @@ const routes: RouteObject[] = [
             {
                 path: "/products/:handle",
                 element: <ProductDetailPage />,
+            },
+            {
+                path: "/login",
+                element: <Login />,
+            },
+            {
+                path: "/register",
+                element: <Register />,
             },
         ],
     },

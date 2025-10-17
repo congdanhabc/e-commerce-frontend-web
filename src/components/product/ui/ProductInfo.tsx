@@ -8,13 +8,20 @@ interface ProductInfoProps{
 }
 
 export function ProductInfo({ product, quantity, onQuantityChange }: ProductInfoProps){
+  const formatter = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+
     return(
         <div className="space-y-6">
           <div className="space-y-4">
             <h1 className="text-2xl font-semibold font-inter">{product.title}</h1>
 
             {/* Price */}
-            <div className="text-2xl font-inter">{product.priceRange.minVariantPrice.amount}</div>
+            <div className="text-2xl font-inter">{formatter.format(Number(product.priceRange.minVariantPrice.amount))}</div>
 
             {/* Description */}
             <p className="text-sm leading-relaxed border-b pb-6">
@@ -73,14 +80,14 @@ export function ProductInfo({ product, quantity, onQuantityChange }: ProductInfo
               </div>
               <button
                 onClick={() => onQuantityChange(quantity + 1)}
-                className="w-10 h-11 flex items-center justify-center bg-red-500 text-white rounded-r hover:bg-red-600"
+                className="w-10 h-11 flex items-center justify-center border-l border-gray-400 hover:bg-gray-100"
               >
                 <Plus className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="bg-red-500 hover:bg-red-600 text-white px-12 h-11">
-              Buy Now
+            <div className="flex items-center px-12 h-11 bg-white text-red-500 border-2 border-red-500 hover:bg-red-500 hover:text-white transition-colors duration-200 ease-in-out">
+              Mua ngay
             </div>
 
             <button className="w-10 h-10 border border-gray-400 rounded flex items-center justify-center hover:bg-gray-100">
@@ -93,16 +100,16 @@ export function ProductInfo({ product, quantity, onQuantityChange }: ProductInfo
             <div className="flex items-center gap-4 p-6 border-b border-gray-400">
               <Truck className="w-10 h-10" />
               <div className="space-y-2">
-                <div className="font-medium">Free Delivery</div>
-                <div className="text-xs underline">Enter your postal code for Delivery Availability</div>
+                <div className="font-medium">Miễn phí vận chuyển</div>
+                <div className="text-xs">Đối với hóa đơn trên 1.000.000 đ.</div>
               </div>
             </div>
             <div className="flex items-center gap-4 p-6">
               <RotateCcw className="w-10 h-10" />
               <div className="space-y-2">
-                <div className="font-medium">Return Delivery</div>
+                <div className="font-medium">Dễ dàng đổi trả</div>
                 <div className="text-xs">
-                  Free 30 Days Delivery Returns. <span className="underline">Details</span>
+                  Nếu sản phẩm xuất hiện lỗi từ nhà sản xuất. <span className="underline">Chi tiết</span>
                 </div>
               </div>
             </div>
