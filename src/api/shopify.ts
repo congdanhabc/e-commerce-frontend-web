@@ -4,7 +4,7 @@ type StorefrontApiVariables = {
 
 export async function storeFront(query: string, variables: StorefrontApiVariables = {}) {
   const response = await fetch (
-    `${import.meta.env.VITE_SHOPIFY_STORE_DOMAIN}/api/2025-07/graphql.json`,
+    `${import.meta.env.VITE_SHOPIFY_STORE_DOMAIN}/api/2025-10/graphql.json`,
     {
       method: "POST",
       headers:{

@@ -26,6 +26,11 @@ export const Header = () => {
     navigate("/login");
   };
 
+  const [searchTerm, setSearchTerm] = useState('');
+  function handleSearchProducts (){
+    navigate(`/products?search=${searchTerm.trim()}`);
+  }
+
   return (
     <header className="border-b sticky top-0 bg-white z-100">
         <div className="container mx-auto px-4 py-6 flex items-center justify-between">
@@ -53,8 +58,11 @@ export const Header = () => {
                 type="text" 
                 placeholder="Tìm kiếm sản phẩm" 
                 className="bg-transparent text-sm outline-none w-64"
+                onChange={e => setSearchTerm(e.target.value)}
               />
-              <Search className="w-5 h-5" />
+              <button onClick={handleSearchProducts}>
+                <Search className="w-5 h-5" />
+              </button>
             </div>
 
             <Link to='/' className="group cursor-pointer" >

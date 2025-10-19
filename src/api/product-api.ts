@@ -72,6 +72,8 @@ export async function getProductByHandle(handle: string) {
   }
 }
 
+
+
 export const PRODUCTS_LIST_FRAGMENT = `
   fragment ProductFragment on Product {
     id
@@ -96,22 +98,29 @@ export const PRODUCTS_LIST_FRAGMENT = `
 `;
 
 export type ProductsOptions = {
-  collectionHandle?: string;
+  collectionHandles?: string[];
   searchTerm?: string;
   tags?: string[];
   minPrice?: number;
   maxPrice?: number;
-  sortKey?: 'TITLE' | 'PRICE' | 'CREATED_AT' | 'RELEVANCE';
+  sortKey?: 'TITLE' | 'PRICE' | 'CREATED_AT' | 'BEST_SELLING' | 'RELEVANCE' | 'ID' | 'PRODUCT_TYPE' | 'UPDATED_AT' | 'VENDOR';
   reverse?: boolean;
   first?: number;
-  last?: number; 
+  last?: number;
   after?: string;
   before?: string;
 };
 
 export async function getProducts(options: ProductsOptions = {}) {
+  // 1. XÂY DỰNG CHUỖI `query` TỪ TẤT CẢ CÁC BỘ LỌC
   const filters: string[] = [];
   
+  if (options.collectionHandles && options.collectionHandles.length > 0) {
+    filters.push(`(${options.collectionHandles.map(h => `product_collection:'${h}'`).join(' OR ')})`);
+  }
+  if (options.tags && options.tags.length > 0) {
+    filters.push(`(${options.tags.map(t => `tag:'${t}'`).join(' OR ')})`);
+  }
   if (options.searchTerm) {
     filters.push(`(title:*${options.searchTerm}*)`);
   }
@@ -121,68 +130,64 @@ export async function getProducts(options: ProductsOptions = {}) {
   if (options.maxPrice) {
     filters.push(`(variants.price:<=${options.maxPrice})`);
   }
+  
+  const queryString = filters.join(' AND ');
 
-  if (options.tags && options.tags.length > 0) {
-    const tagFilters = options.tags.map(tag => `(tag:'${tag}')`).join(' OR ');
-    filters.push(`(${tagFilters})`);
-  }
-
-  const filterQueryString = filters.length > 0 ? `, query: "${filters.join(' AND ')}"` : '';
-
+  // 2. XÂY DỰNG TRUY VẤN GraphQL
   const query = `
     query getProducts(
-      $handle: String!, 
-      $sortKey: ProductCollectionSortKeys, 
+      $query: String!,
+      $sortKey: ProductSortKeys,
       $reverse: Boolean,
       $first: Int,
       $last: Int,
       $after: String,
       $before: String
     ) {
-      collection(handle: $handle) {
-        products(
-          first: $first, 
-          last: $last,
-          after: $after, 
-          before: $before,
-          sortKey: $sortKey, 
-          reverse: $reverse
-          ${filterQueryString}
-        ) {
-          pageInfo {
-            hasNextPage
-            hasPreviousPage
-            startCursor
-            endCursor
-          }
-          edges {
-            cursor
-            node {
-              ...ProductFragment
-            }
-          }
+      products(
+        first: $first,
+        last: $last,
+        after: $after,
+        before: $before,
+        query: $query,
+        sortKey: $sortKey,
+        reverse: $reverse
+      ) {
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        edges {
+          cursor
+          node { ...ProductFragment }
         }
       }
     }
-    ${PRODUCTS_LIST_FRAGMENT}
+    ${PRODUCT_FRAGMENT}
   `;
-
+  
+  // 3. CHUẨN BỊ BIẾN VÀ GỌI API
   const variables = {
-    handle: options.collectionHandle || 'all',
-    sortKey: options.sortKey || 'RELEVANCE',
-    reverse: options.reverse || false,
+    query: queryString,
+    sortKey: options.sortKey || (queryString ? 'RELEVANCE' : 'CREATED_AT'),
+    reverse: options.reverse ?? (options.sortKey === 'CREATED_AT' || !options.sortKey),
     first: options.before ? null : (options.first || 12),
     last: options.before ? (options.last || 12) : null,
-    after: options.after || null,
-    before: options.before || null,
+    after: options.after ?? undefined,
+    before: options.before ?? undefined,
   };
   
   try {
     const response = await storeFront(query, variables);
-    console.log(response);
-    return response.data?.collection?.products;
+    return response.data?.products;
   } catch (error) {
-    console.error("Lỗi khi lấy danh sách sản phẩm:", { options, error });
+    console.error("Lỗi khi lấy danh sách sản phẩm:", { 
+      queryStringSent: queryString, 
+      variablesSent: variables, 
+      errorReceived: error 
+    });
     throw new Error("Không thể lấy danh sách sản phẩm.");
   }
 }
