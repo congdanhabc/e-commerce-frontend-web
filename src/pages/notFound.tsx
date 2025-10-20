@@ -1,4 +1,4 @@
-import Notification from "../components/notification";
+import Notification from "../components/shared/Notification";
 
 export default function NotFoundPage () {
     const title = '404 Not Found';

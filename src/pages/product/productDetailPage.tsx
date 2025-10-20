@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { RelatedProductCard } from "../../components/product/RelatedProductCard";
 import { useProductDetail } from "../../hooks/useProductDetail";
 import ProductDetail from "../../components/product/ProductDetail";
-import Notification from "../../components/notification";
+import Notification from "../../components/shared/Notification";
 
 export default function ProductDetailPage() {
   const params = useParams();

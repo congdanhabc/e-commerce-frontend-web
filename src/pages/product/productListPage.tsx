@@ -1,12 +1,12 @@
 import { ChevronDown, ArrowLeft, ArrowRight } from "lucide-react";
-import Notification from "../../components/notification";
+import Notification from "../../components/shared/Notification";
 import { useProductList } from "../../hooks/useProductList";
 import { type ProductsOptions } from "../../api/product-api";
 import ProductListFilter from "../../components/product/ui/ProductListFilter";
 import ProductListGrid from "../../components/product/ui/ProductListGrid";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import Loading from "../../components/loading";
+import Loading from "../../components/shared/Loading";
 
 const options: ProductsOptions = {
   tags: [],

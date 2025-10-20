@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import { loginCustomer } from "../api/auth-api";
 
 // Định nghĩa type cho kết quả trả về từ API
@@ -17,12 +17,16 @@ interface LoginResult {
   customerUserErrors?: CustomerUserError[];
 }
 
+type AppContext = {
+  onLoginSuccess: (token: string) => void;
+};
+
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [message, setMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
+  const { onLoginSuccess } = useOutletContext<AppContext>();
 
   const handleLogin = async (): Promise<void> => {
     if (!email || !password) {
@@ -41,9 +45,10 @@ export default function Login() {
         setMessage(errors[0].message);
       } else if (result.customerAccessToken) {
         const token = result.customerAccessToken.accessToken;
-        localStorage.setItem("shopify_token", token);
+        if (token) {
+          onLoginSuccess(token);
+        }
         setMessage("Đăng nhập thành công! Đang chuyển hướng...");
-        setTimeout(() => navigate("/"), 1000);
       } else {
         setMessage("Đăng nhập thất bại. Vui lòng thử lại!");
       }
