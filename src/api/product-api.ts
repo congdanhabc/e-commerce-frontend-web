@@ -103,15 +103,15 @@ export type ProductsOptions = {
   tags?: string[];
   minPrice?: number;
   maxPrice?: number;
-  sortKey?: 'TITLE' | 'PRICE' | 'CREATED_AT' | 'BEST_SELLING' | 'RELEVANCE' | 'ID' | 'PRODUCT_TYPE' | 'UPDATED_AT' | 'VENDOR';
-  reverse?: boolean;
+  sortKey: 'TITLE' | 'PRICE' | 'CREATED_AT' | 'BEST_SELLING' | 'RELEVANCE' | 'ID' | 'PRODUCT_TYPE' | 'UPDATED_AT' | 'VENDOR';
+  reverse: boolean;
   first?: number;
   last?: number;
   after?: string;
   before?: string;
 };
 
-export async function getProducts(options: ProductsOptions = {}) {
+export async function getProducts(options: ProductsOptions = {sortKey: 'CREATED_AT', reverse: true}) {
   // 1. XÂY DỰNG CHUỖI `query` TỪ TẤT CẢ CÁC BỘ LỌC
   const filters: string[] = [];
   
@@ -171,8 +171,8 @@ export async function getProducts(options: ProductsOptions = {}) {
   // 3. CHUẨN BỊ BIẾN VÀ GỌI API
   const variables = {
     query: queryString,
-    sortKey: options.sortKey || (queryString ? 'RELEVANCE' : 'CREATED_AT'),
-    reverse: options.reverse ?? (options.sortKey === 'CREATED_AT' || !options.sortKey),
+    sortKey: options.sortKey,
+    reverse: options.reverse,
     first: options.before ? null : (options.first || 12),
     last: options.before ? (options.last || 12) : null,
     after: options.after ?? undefined,
