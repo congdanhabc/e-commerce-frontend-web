@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { ShopifyProduct } from "../types/shopify";
-import { getProductByHandle } from "../api/product-api";
+import type { ShopifyProduct } from "../../types/shopify";
+import { getProductByHandle } from "../../api/product-api";
 
 export function useProductDetail(handle: string)
 {

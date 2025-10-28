@@ -3,11 +3,14 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider } from "react-router-dom";
 import './index.css';
 
+
 import router from './router';
+import { AppProviders } from './providers/AppProviders';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    {/* Cung cấp router cho toàn bộ ứng dụng */}
-    <RouterProvider router={router} />
+    <AppProviders>
+      <RouterProvider router={router} />
+    </AppProviders>
   </React.StrictMode>,
 );

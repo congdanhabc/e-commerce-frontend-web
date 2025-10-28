@@ -1,6 +1,6 @@
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import Notification from "../../components/shared/Notification";
-import { useProductList } from "../../hooks/useProductList";
+import { useProductList } from "../../hooks/products/useProductList";
 import { type ProductsOptions } from "../../api/product-api";
 import ProductListFilter from "../../components/product/ui/ProductListFilter";
 import ProductListGrid from "../../components/product/ui/ProductListGrid";

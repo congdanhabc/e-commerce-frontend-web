@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { ShopifyProductEdge, PageInfo } from "../types/shopify";
-import { getProducts, type ProductsOptions } from "../api/product-api";
+import type { ShopifyProductEdge, PageInfo } from "../../types/shopify";
+import { getProducts, type ProductsOptions } from "../../api/product-api";
 
 export function useProductList(options: ProductsOptions = {sortKey: 'CREATED_AT', reverse: true})
 {

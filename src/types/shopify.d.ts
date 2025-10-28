@@ -87,3 +87,19 @@ export type ShopifyCart = {
     }[];
   };
 };
+
+export interface CustomerUserError {
+  field: string[] | null;
+  message: string;
+}
+
+export interface CustomerAccessToken {
+  accessToken: string;
+  expiresAt: string;
+}
+
+// Kiểu dữ liệu cho toàn bộ phản hồi của mutation đăng nhập
+export interface LoginResult {
+  customerAccessToken: CustomerAccessToken | null;
+  customerUserErrors: CustomerUserError[];
+}

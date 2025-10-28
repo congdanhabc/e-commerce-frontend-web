@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { RelatedProductCard } from "../../components/product/RelatedProductCard";
-import { useProductDetail } from "../../hooks/useProductDetail";
+import { useProductDetail } from "../../hooks/products/useProductDetail";
 import ProductDetail from "../../components/product/ProductDetail";
 import Notification from "../../components/shared/Notification";
 

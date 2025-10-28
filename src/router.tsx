@@ -4,8 +4,9 @@ import NotFoundPage from "./pages/notFound";
 import HelloWorldPage from "./pages/helloWorld";
 import ProductDetailPage from "./pages/product/productDetailPage";
 import ProductListPage from "./pages/product/productListPage";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import CartPage from "./pages/CartPage";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 
 const routes: RouteObject[] = [
     {
@@ -37,6 +38,10 @@ const routes: RouteObject[] = [
             {
                 path: "/register",
                 element: <Register />,
+            },
+            {
+                path: "/cart",
+                element: <CartPage />,
             },
         ],
     },

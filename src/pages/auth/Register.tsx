@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { registerCustomer } from "../api/auth-api";
+import { registerCustomer } from "../../api/auth-api";
 
 // Định nghĩa type cho kết quả trả về từ API
 interface CustomerUserError {

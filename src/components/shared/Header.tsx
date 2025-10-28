@@ -1,6 +1,7 @@
 import { Heart, ShoppingCart, Search, User, LogIn, LogOut, UserPlus2 } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../providers/auth/useContextAuth";
 
 const navigations = [
   { label: "Trang chủ", href: "/" },
@@ -9,15 +10,12 @@ const navigations = [
   { label: "Về chúng tôi", href: "/aboutus" },
 ];
 
-type HeaderProps = {
-  isLoggedIn: boolean;
-  onLogout: () => void;
-};
 
-export const Header = ({ isLoggedIn, onLogout }: HeaderProps) => {
+export const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  //Xử lý Search
   const [searchTerm, setSearchTerm] = useState("");
   function handleSearchProducts(event: React.FormEvent) {
     event.preventDefault();
@@ -26,6 +24,9 @@ export const Header = ({ isLoggedIn, onLogout }: HeaderProps) => {
     if (!trimmedTerm) navigate("/products");
     else navigate(`/products?search=${searchTerm.trim()}`);
   }
+
+  //Xử lý trạng thái Login
+  const { isLoggedIn, onLogout } = useAuth();
 
   return (
     <header className="border-b sticky top-0 bg-white z-100 w-full">
@@ -118,7 +119,7 @@ export const Header = ({ isLoggedIn, onLogout }: HeaderProps) => {
                   {isLoggedIn ? (
                     <li>
                       <button
-                        onClick={onLogout}
+                        onClick={() => onLogout()}
                         className="block w-full px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-red-500 transition-colors"
                       >
                         <span className="flex">
