@@ -5,9 +5,9 @@ import CartProvider from './cart/CartProvider';
 export function AppProviders({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
-      {/* <CartProvider> */}
+      <CartProvider>
         {children}
-
+      </CartProvider>
     </AuthProvider>
   );
 }

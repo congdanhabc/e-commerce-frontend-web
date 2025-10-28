@@ -1,8 +1,6 @@
-// src/providers/CartProvider.tsx
 import { useState, useEffect, type ReactNode } from 'react';
-import { getCartSummary } from '@/api/cart-api'; // Giả sử bạn có hàm API nhẹ này
+import { getCartSummary } from '../../api/cart-api'; // Giả sử bạn có hàm API nhẹ này
 import { CartContext } from './CartContext';
-
 
 
 export default function CartProvider({ children }: { children: ReactNode }) {
