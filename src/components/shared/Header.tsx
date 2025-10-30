@@ -124,17 +124,30 @@ export const Header = () => {
                             group-hover:opacity-100 group-hover:visible group-hover:scale-100 z-1000"
                 >
                   {isLoggedIn ? (
-                    <li>
-                      <button
-                        onClick={() => onLogout()}
-                        className="block w-full px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-red-500 transition-colors"
-                      >
-                        <span className="flex">
-                          <LogOut className="text-sm mr-1"  />
-                          Đăng xuất
-                        </span>
-                      </button>
-                    </li>
+                    <>
+                      <li>
+                        <Link
+                          to="/profile"
+                          className="block w-full px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-red-500 transition-colors"
+                        >
+                          <span className="flex">
+                            <User className="text-sm mr-1" />
+                            Thông tin cá nhân
+                          </span>
+                        </Link>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => onLogout()}
+                          className="block w-full px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-red-500 transition-colors"
+                        >
+                          <span className="flex">
+                            <LogOut className="text-sm mr-1" />
+                            Đăng xuất
+                          </span>
+                        </button>
+                      </li>
+                    </>
                   ) : (
                     <>
                       <li>
