@@ -50,7 +50,9 @@ export default function Login() {
         </div>
 
         {error && (
-          <p className="mt-4 text-center text-sm text-red-600">{error}</p>
+          <p className="mt-4 text-center text-sm text-red-600">
+            {error === "Unidentified customer" ? "Sai tên tài khoản hoặc mật khẩu" : error}
+          </p>
         )}
 
         <p className="mt-6 text-center text-sm text-gray-600">

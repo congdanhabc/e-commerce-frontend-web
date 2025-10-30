@@ -1,72 +1,22 @@
 import { useState } from "react";
 import { CartItem } from "../components/cart/CartItem";
 import { OrderSummary } from "../components/cart/OrderSummary";
-
-interface CartItem {
-  id: number;
-  name: string;
-  size: string;
-  color: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
+import { useCartActions } from "../hooks/cart/useCartActions";
+import { useCart } from "../providers/cart/useContextCart";
 
 export default function CartPage() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      id: 1,
-      name: "Gradient Graphic T-shirt",
-      size: "Large",
-      color: "White",
-      price: 145,
-      quantity: 1,
-      image:
-        "https://api.builder.io/api/v1/image/assets/TEMP/99a5be46e9c3a31266c32ff3d29b604d72269210?width=250",
-    },
-    {
-      id: 2,
-      name: "Checkered Shirt",
-      size: "Medium",
-      color: "Red",
-      price: 180,
-      quantity: 1,
-      image:
-        "https://api.builder.io/api/v1/image/assets/TEMP/fc7d6e9ce597e4f413b6721b3360f7ff2203ad3b?width=250",
-    },
-    {
-      id: 3,
-      name: "Skinny Fit Jeans",
-      size: "Large",
-      color: "Blue",
-      price: 240,
-      quantity: 1,
-      image:
-        "https://api.builder.io/api/v1/image/assets/TEMP/ff350074d8cf8790913092588250f9213f89d607?width=204",
-    },
-  ]);
+  const { cartContext } = useCart();
 
-  const updateQuantity = (id: number, delta: number) => {
-    setCartItems((items) =>
-      items.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-          : item
-      )
-    );
-  };
+  const {
+    updateItemQuantity,
+    removeItem,
+    loading: actionLoading,
+  } = useCartActions();
 
-  const removeItem = (id: number) => {
-    setCartItems((items) => items.filter((item) => item.id !== id));
-  };
+  const [recentlyUpdated, setRecentlyUpdated] = useState<number | null>(null);
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-  const discount = Math.round(subtotal * 0.2);
-  const deliveryFee = 15;
-  const total = subtotal - discount + deliveryFee;
+  if (!cartContext || cartContext.lines.edges.length === 0)
+    return <div>Giỏ hàng trống.</div>;
 
   return (
     <div className="min-h-screen bg-white">
@@ -79,29 +29,38 @@ export default function CartPage() {
         <div className="flex flex-col lg:flex-row gap-5">
           {/* Cart Items */}
           <div className="flex-1">
-            <div className="border border-black/10 rounded-2xl p-6 space-y-6">
-              {cartItems.map((item, index) => (
-                <div key={item.id}>
-                  <CartItem
-                    {...item}
-                    onUpdateQuantity={updateQuantity}
-                    onRemove={removeItem}
-                  />
-                  {index < cartItems.length - 1 && (
-                    <div className="h-0.5 w-ful my-5 mx-3 bg-black" />
-                  )}
-                </div>
-              ))}
-            </div>
+          <div className="border border-black/10 rounded-2xl p-6 space-y-6">
+            {cartContext.lines.edges.map((edge, index) => (
+              <div key={edge.node.id}>
+                <CartItem
+                  id={edge.node.id}
+                  name={edge.node.merchandise.product.title}
+                  price={parseFloat(edge.node.merchandise.price.amount)}
+                  quantity={edge.node.quantity}
+                  image={edge.node.merchandise.image?.url || ""}
+                  link={edge.node.merchandise.product.handle}
+                  // Truyền các hàm wrapper mới
+                  onUpdateQuantity={updateItemQuantity}
+                  onRemove={removeItem}
+                  loading={recentlyUpdated === index}
+                  onRecentlyUpdated={() => setRecentlyUpdated(index)}
+                  disabled={actionLoading}
+                />
+                {index < cartContext.lines.edges.length - 1 && (
+                  <div className="h-0.5 w-ful my-5 mx-3 bg-black" />
+                )}
+              </div>
+            ))}
           </div>
+        </div>
 
           {/* Order Summary */}
-          <OrderSummary
-            subtotal={subtotal}
-            discount={discount}
-            deliveryFee={deliveryFee}
-            total={total}
-          />
+        <OrderSummary
+          subtotal={cartContext.cost.subtotalAmount.amount}
+          discount={"0"}
+          deliveryFee={"0"}
+          total={cartContext.cost.subtotalAmount.amount}
+        />
         </div>
       </div>
     </div>

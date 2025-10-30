@@ -1,8 +1,10 @@
 import { createContext } from "react";
+import type { ShopifyCart } from "../../types/shopify";
 
 interface CartContextType {
-  totalQuantity: number | null; 
-  setTotalQuantity: (quantity: number) => void;
+  cartContext: ShopifyCart | null; 
+
+  setCartContext: (cart: ShopifyCart) => void;
 }
 
 export const CartContext = createContext<CartContextType | undefined>(undefined);

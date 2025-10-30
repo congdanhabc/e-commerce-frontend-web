@@ -8,7 +8,6 @@ type ProductDetailProps = {
 };
 
 export default function ProductDetail({ product }: ProductDetailProps) {
-  const [quantity, setQuantity] = useState(1);
 
   const galleryImages = useMemo(() => 
     product.images.edges.map((edge) => edge.node), 
@@ -26,8 +25,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
         <ImageGallery title={product.title} images={galleryImages} mainImage={mainImage} selectedImage={selectedImage} onImageSelect={setSelectedImage} />
 
-        <ProductInfo product={product} quantity={quantity} onQuantityChange={setQuantity} />
-        
+        <ProductInfo product={product} />
+
       </div>
   );
 }

@@ -64,28 +64,6 @@ export async function getCart(cartId: string): Promise<ShopifyCart | null> {
   }
 }
 
-export async function getCartSummary(cartId: string): Promise<{ totalQuantity: number } | null> {
-  // 1. ĐỊNH NGHĨA MỘT TRUY VẤN RẤT NHẸ
-  // Chỉ yêu cầu đúng một trường dữ liệu: `totalQuantity`
-  const query = `
-    query getCartSummary($cartId: ID!) {
-      cart(id: $cartId) {
-        id
-        totalQuantity
-      }
-    }
-  `;
-
-  // 2. GỌI API VÀ XỬ LÝ
-  try {
-    const response = await storeFront(query, { cartId });
-    // Dùng optional chaining `?.` để đảm bảo an toàn nếu `data` hoặc `cart` là null
-    return response.data?.cart;
-  } catch (error) {
-    console.error("Lỗi khi lấy tóm tắt giỏ hàng (getCartSummary):", error);
-    return null;
-  }
-}
 
 export async function createCart(lines: { merchandiseId: string; quantity: number }[]): Promise<ShopifyCart> {
   const query = `

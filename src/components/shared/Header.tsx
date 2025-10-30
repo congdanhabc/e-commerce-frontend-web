@@ -1,4 +1,4 @@
-import { Heart, ShoppingCart, Search, User, LogIn, LogOut, UserPlus2 } from "lucide-react";
+import { ShoppingCart, Search, User, LogIn, LogOut, UserPlus2 } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../providers/auth/useContextAuth";
@@ -29,8 +29,9 @@ export const Header = () => {
   //Xử lý trạng thái Login
   const { isLoggedIn, onLogout } = useAuth();
 
-  //Thông tin số lượng sản phẩm trong Cart
-  const { totalQuantity } = useCart();
+  //Thông tin sản phẩm trong Cart
+  const { cartContext } = useCart();
+  const totalQuantity = cartContext?.totalQuantity !== undefined ? cartContext.totalQuantity : 0;
 
   return (
     <header className="border-b sticky top-0 bg-white z-100 w-full">
@@ -84,14 +85,14 @@ export const Header = () => {
 
           <nav>
             <ul className="flex items-center gap-8">
-              <li className="group cursor-pointer">
+              {/* <li className="group cursor-pointer">
                 <Link
                   to={isLoggedIn ? `/` : `/login`}
                   className="w-8 h-8 flex items-center justify-center rounded-full group-hover:bg-red-500 transition-colors duration-500 ease-in-out"
                 >
                   <Heart className="w-8 h-8 group-hover:w-5 group-hover:h-5 group-hover:text-white transition-all duration-600 ease-in-out" />
                 </Link>
-              </li>
+              </li> */}
 
               <li className="group cursor-pointer relative">
                 <Link
@@ -100,11 +101,11 @@ export const Header = () => {
                 >
                   <ShoppingCart className="w-8 h-8 group-hover:w-5 group-hover:h-5 group-hover:text-white transition-all duration-600 ease-in-out" />
 
-                  { totalQuantity ? (
+                  { (totalQuantity > 0) && (
                     <div className="absolute -top-2.5 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
                       {totalQuantity}
                     </div>
-                  ) : (<div />)}
+                  )}
                 </Link>
               </li>
 

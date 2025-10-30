@@ -62,6 +62,7 @@ export type PageInfo = {
 export type ShopifyCart = {
   id: string;
   checkoutUrl: string;
+  totalQuantity: number; 
   cost: {
     totalAmount: ShopifyPrice;
     subtotalAmount: ShopifyPrice;
@@ -74,6 +75,7 @@ export type ShopifyCart = {
         merchandise: {
           id: string;
           title: string;
+          price: ShopifyPrice
           product: {
             title: string;
             handle: string;
