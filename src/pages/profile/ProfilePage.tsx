@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useCustomerProfile } from '../../hooks/auth/useCustomerProfile';
+import { countries } from '../../data/countries';
 
 export default function ProfilePage() {
-  const { customerData, loading, error, isUpdating, updateProfile } = useCustomerProfile();
+  const { customerData, loading, error, isUpdating, updateProfile, updateAddress, createAddress } = useCustomerProfile();
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [address1, setAddress1] = useState('');
+  const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
+  const [zip, setZip] = useState('');
   const [message, setMessage] = useState<string | null>(null);
   const [messageType, setMessageType] = useState<'success' | 'error' | null>(null);
 
@@ -18,6 +23,12 @@ export default function ProfilePage() {
       setLastName(customerData.lastName || '');
       setEmail(customerData.email || '');
       setPhone(customerData.phone || '');
+      if (customerData.defaultAddress) {
+        setAddress1(customerData.defaultAddress.address1 || '');
+        setCity(customerData.defaultAddress.city || '');
+        setCountry(customerData.defaultAddress.country || '');
+        setZip(customerData.defaultAddress.zip || '');
+      }
     }
   }, [customerData]);
 
@@ -26,25 +37,77 @@ export default function ProfilePage() {
     setMessage(null);
     setMessageType(null);
 
-    const updatedCustomer = {
-      firstName,
-      lastName,
-      email,
-      phone,
-    };
+    if (!customerData) {
+      setMessage("Không tìm thấy dữ liệu khách hàng.");
+      setMessageType("error");
+      return;
+    }
 
-    const success = await updateProfile(updatedCustomer, newPassword || undefined);
+    const profileChanges: { [key: string]: string } = {};
+    if (firstName !== (customerData.firstName || '')) profileChanges.firstName = firstName;
+    if (lastName !== (customerData.lastName || '')) profileChanges.lastName = lastName;
+    if (email !== (customerData.email || '')) profileChanges.email = email;
+    if (phone !== (customerData.phone || '')) profileChanges.phone = phone;
 
-    if (success) {
-      setMessage('Cập nhật thông tin thành công!');
-      setMessageType('success');
-      setNewPassword('');
-    } else if (error) {
-      setMessage(error);
-      setMessageType('error');
+    const addressChanges: { [key: string]: string } = {};
+    const newAddress: { [key: string]: string } = {};
+
+    if (customerData.defaultAddress) {
+        if (address1 !== (customerData.defaultAddress.address1 || '')) addressChanges.address1 = address1;
+        if (city !== (customerData.defaultAddress.city || '')) addressChanges.city = city;
+        if (country !== (customerData.defaultAddress.country || '')) addressChanges.country = country;
+        if (zip !== (customerData.defaultAddress.zip || '')) addressChanges.zip = zip;
     } else {
-      setMessage('Cập nhật thông tin thất bại.');
+        if (address1) newAddress.address1 = address1;
+        if (city) newAddress.city = city;
+        if (country) newAddress.country = country;
+        if (zip) newAddress.zip = zip;
+    }
+
+    if (Object.keys(profileChanges).length === 0 && Object.keys(addressChanges).length === 0 && Object.keys(newAddress).length === 0 && !newPassword) {
+      setMessage('Không có thông tin nào được thay đổi.');
       setMessageType('error');
+      return;
+    }
+
+    let success = true;
+    let message = '';
+
+    if (Object.keys(profileChanges).length > 0 || newPassword) {
+        const profileSuccess = await updateProfile(profileChanges, newPassword || undefined);
+        if (profileSuccess) {
+            message += 'Cập nhật thông tin cá nhân thành công! ';
+            setNewPassword('');
+        } else {
+            success = false;
+            message += 'Cập nhật thông tin cá nhân thất bại. ';
+        }
+    }
+
+    if (Object.keys(addressChanges).length > 0 && customerData.defaultAddress) {
+        const addressSuccess = await updateAddress(customerData.defaultAddress.id, addressChanges);
+        if (addressSuccess) {
+            message += 'Cập nhật địa chỉ thành công!';
+        } else {
+            success = false;
+            message += 'Cập nhật địa chỉ thất bại.';
+        }
+    } else if (Object.keys(newAddress).length > 0) {
+        const addressSuccess = await createAddress(newAddress);
+        if (addressSuccess) {
+            message += 'Thêm địa chỉ thành công!';
+        } else {
+            success = false;
+            message += 'Thêm địa chỉ thất bại.';
+        }
+    }
+
+    setMessage(message.trim());
+    setMessageType(success ? 'success' : 'error');
+
+    if (error) {
+        setMessage(error);
+        setMessageType('error');
     }
   };
 
@@ -100,7 +163,7 @@ export default function ProfilePage() {
             />
           </div>
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Số điện thoại</label>
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Số điện thoại (ví dụ: +84123456789)</label>
             <input
               type="tel"
               id="phone"
@@ -110,6 +173,58 @@ export default function ProfilePage() {
               disabled={isUpdating}
             />
           </div>
+          <h2 className="text-xl font-bold mt-6">Địa chỉ mặc định</h2>
+          <div>
+            <label htmlFor="address1" className="block text-sm font-medium text-gray-700">Địa chỉ</label>
+            <input
+              type="text"
+              id="address1"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              value={address1}
+              onChange={(e) => setAddress1(e.target.value)}
+              disabled={isUpdating}
+            />
+          </div>
+          <div>
+            <label htmlFor="city" className="block text-sm font-medium text-gray-700">Thành phố</label>
+            <input
+              type="text"
+              id="city"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              disabled={isUpdating}
+            />
+          </div>
+          <div>
+            <label htmlFor="country" className="block text-sm font-medium text-gray-700">Quốc gia</label>
+            <select
+              id="country"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              disabled={isUpdating}
+            >
+              <option value="">Chọn quốc gia</option>
+              {countries.map((c) => (
+                <option key={c.code} value={c.name}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label htmlFor="zip" className="block text-sm font-medium text-gray-700">Mã bưu điện</label>
+            <input
+              type="text"
+              id="zip"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              value={zip}
+              onChange={(e) => setZip(e.target.value)}
+              disabled={isUpdating}
+            />
+          </div>
+          <h2 className="text-xl font-bold mt-6">Thay đổi mật khẩu</h2>
           <div>
             <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700">Mật khẩu mới</label>
             <input

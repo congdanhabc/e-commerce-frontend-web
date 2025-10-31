@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../providers/auth/useContextAuth';
-import { fetchCustomerDetails, updateCustomerDetails } from '../../api/customer-api';
-import type { ShopifyCustomer, ShopifyCustomerUpdateInput, ShopifyCustomerUpdateResult } from '../../api/customer-api';
+import { fetchCustomerDetails, updateCustomerDetails, updateCustomerAddress, createCustomerAddress, setDefaultCustomerAddress } from '../../api/customer-api';
+import type { ShopifyCustomer, ShopifyCustomerUpdateInput, ShopifyCustomerUpdateResult, ShopifyAddressUpdateInput, ShopifyAddressUpdateResult, ShopifyAddressCreateResult, ShopifyCustomerAddress } from '../../api/customer-api';
 import { useNavigate } from 'react-router-dom';
 
 export function useCustomerProfile() {
@@ -29,7 +29,7 @@ export function useCustomerProfile() {
         onLogout();
         navigate('/login');
       }
-    } catch (e: unknown) {
+    } catch (e: unknown) { 
       setError((e instanceof Error) ? e.message : 'Không thể tải thông tin cá nhân.');
       onLogout(); // Log out on error fetching profile
       navigate('/login');
@@ -69,6 +69,76 @@ export function useCustomerProfile() {
     }
   }, [token]);
 
+  const updateAddress = useCallback(async (addressId: string, updatedAddress: ShopifyAddressUpdateInput): Promise<boolean> => {
+    if (!token) {
+        setError('Bạn chưa đăng nhập.');
+        return false;
+    }
+
+    setIsUpdating(true);
+    setError(null);
+    try {
+        const result: ShopifyAddressUpdateResult = await updateCustomerAddress(token, addressId, updatedAddress);
+        if (result.customerUserErrors && result.customerUserErrors.length > 0) {
+            setError(result.customerUserErrors[0].message);
+            return false;
+        }
+        if (result.customerAddress) {
+            setCustomerData((prev) => {
+                if (!prev) return null;
+                return {
+                    ...prev,
+                    defaultAddress: {
+                        ...(prev.defaultAddress || { id: addressId }),
+                        ...result.customerAddress
+                    } as ShopifyCustomerAddress
+                };
+            });
+            return true;
+        }
+        return false;
+    } catch (e: unknown) {
+        setError((e instanceof Error) ? e.message : 'Không thể cập nhật địa chỉ.');
+        return false;
+    } finally {
+        setIsUpdating(false);
+    }
+}, [token]);
+
+const createAddress = useCallback(async (newAddress: ShopifyAddressUpdateInput): Promise<boolean> => {
+    if (!token) {
+        setError('Bạn chưa đăng nhập.');
+        return false;
+    }
+
+    setIsUpdating(true);
+    setError(null);
+    try {
+        const result: ShopifyAddressCreateResult = await createCustomerAddress(token, newAddress);
+        if (result.customerUserErrors && result.customerUserErrors.length > 0) {
+            setError(result.customerUserErrors[0].message);
+            return false;
+        }
+        if (result.customerAddress) {
+            await setDefaultCustomerAddress(token, result.customerAddress.id);
+            setCustomerData((prev) => {
+                if (!prev) return null;
+                return {
+                    ...prev,
+                    defaultAddress: result.customerAddress as ShopifyCustomerAddress
+                };
+            });
+            return true;
+        }
+        return false;
+    } catch (e: unknown) {
+        setError((e instanceof Error) ? e.message : 'Không thể tạo địa chỉ.');
+        return false;
+    } finally {
+        setIsUpdating(false);
+    }
+}, [token]);
+
   useEffect(() => {
     if (isLoggedIn) {
       fetchProfile();
@@ -85,5 +155,7 @@ export function useCustomerProfile() {
     isUpdating,
     fetchProfile,
     updateProfile,
+    updateAddress,
+    createAddress,
   };
 }
