@@ -70,45 +70,54 @@ export default function ProfilePage() {
       return;
     }
 
-    let success = true;
-    let message = '';
+    let overallSuccess = true;
+    let successMessages: string[] = [];
+    let errorMessages: string[] = [];
 
+    // Profile Update
     if (Object.keys(profileChanges).length > 0 || newPassword) {
-        const profileSuccess = await updateProfile(profileChanges, newPassword || undefined);
-        if (profileSuccess) {
-            message += 'Cập nhật thông tin cá nhân thành công! ';
+        const profileError = await updateProfile(profileChanges, newPassword || undefined); // Renamed to profileError
+        if (!profileError) { // Check if it's null (success)
+            successMessages.push('Cập nhật thông tin cá nhân thành công!');
             setNewPassword('');
-        } else {
-            success = false;
-            message += 'Cập nhật thông tin cá nhân thất bại. ';
+        } else { // It's a string (error message)
+            overallSuccess = false;
+            errorMessages.push(profileError); // Use the returned error message directly
         }
     }
 
+    // Address Update
     if (Object.keys(addressChanges).length > 0 && customerData.defaultAddress) {
-        const addressSuccess = await updateAddress(customerData.defaultAddress.id, addressChanges);
-        if (addressSuccess) {
-            message += 'Cập nhật địa chỉ thành công!';
-        } else {
-            success = false;
-            message += 'Cập nhật địa chỉ thất bại.';
+        const addressError = await updateAddress(customerData.defaultAddress.id, addressChanges); // Renamed to addressError
+        if (!addressError) { // Check if it's null (success)
+            successMessages.push('Cập nhật địa chỉ thành công!');
+        } else { // It's a string (error message)
+            overallSuccess = false;
+            errorMessages.push(addressError); // Use the returned error message directly
         }
-    } else if (Object.keys(newAddress).length > 0) {
-        const addressSuccess = await createAddress(newAddress);
-        if (addressSuccess) {
-            message += 'Thêm địa chỉ thành công!';
-        } else {
-            success = false;
-            message += 'Thêm địa chỉ thất bại.';
+    } else if (Object.keys(newAddress).length > 0) { // Address Create
+        const addressError = await createAddress(newAddress); // Renamed to addressError
+        if (!addressError) { // Check if it's null (success)
+            successMessages.push('Thêm địa chỉ thành công!');
+        } else { // It's a string (error message)
+            overallSuccess = false;
+            errorMessages.push(addressError); // Use the returned error message directly
         }
     }
 
-    setMessage(message.trim());
-    setMessageType(success ? 'success' : 'error');
-
-    if (error) {
-        setMessage(error);
+    if (overallSuccess && successMessages.length > 0) {
+        setMessage(successMessages.join(' '));
+        setMessageType('success');
+    } else if (errorMessages.length > 0) {
+        setMessage(errorMessages.join(' \n')); // Use newline for multiple errors
         setMessageType('error');
+    } else { // If no specific success or error messages, clear previous messages
+        setMessage(null);
+        setMessageType(null);
     }
+    // Remove the final 'if (error)' block as it's no longer needed
+
+
   };
 
   if (loading) {

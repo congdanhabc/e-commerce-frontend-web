@@ -4,15 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function AuthProvider({ children }: { children: ReactNode})
 {
-    const [token, setToken] = useState<string | null>(null);
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        const storedToken = localStorage.getItem("shopifyCustomerAccessToken");
-
-        if(storedToken) 
-            setToken(storedToken);
-    }, [])
+    const [token, setToken] = useState<string | null>(() => localStorage.getItem("shopifyCustomerAccessToken"));
 
 
 

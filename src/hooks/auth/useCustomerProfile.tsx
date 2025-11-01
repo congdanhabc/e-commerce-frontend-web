@@ -38,7 +38,7 @@ export function useCustomerProfile() {
     }
   }, [token, onLogout, navigate]);
 
-  const updateProfile = useCallback(async (updatedCustomer: ShopifyCustomerUpdateInput, newPassword?: string): Promise<boolean> => {
+  const updateProfile = useCallback(async (updatedCustomer: ShopifyCustomerUpdateInput, newPassword?: string): Promise<string | null> => {
     if (!token) {
       setError('Bạn chưa đăng nhập.');
       return false;
@@ -46,44 +46,52 @@ export function useCustomerProfile() {
 
     setIsUpdating(true);
     setError(null);
+    let resultMessage: string | null = null; // To store the message to be returned
+
     try {
       const result: ShopifyCustomerUpdateResult = await updateCustomerDetails(token, updatedCustomer, newPassword);
       if (result.customerUserErrors && result.customerUserErrors.length > 0) {
-        setError(result.customerUserErrors[0].message);
-        return false;
-      }
-      if (result.customer) {
+        const error = result.customerUserErrors[0];
+        const field = error.field && error.field.length > 0 ? `Trường: ${error.field.join(', ')}. ` : '';
+        resultMessage = `${field}${error.message}`;
+        setError(resultMessage);
+      } else if (result.customer) {
         setCustomerData((prev) => ({
           ...(prev || {} as ShopifyCustomer),
           ...result.customer,
         }));
-        return true;
+        resultMessage = null; // Success
+      } else {
+        resultMessage = 'Không thể cập nhật thông tin cá nhân.'; // Fallback if no specific error or customer
+        setError(resultMessage);
       }
-      return false;
     } catch (e: unknown) {
-      setError((e instanceof Error) ? e.message : 'Không thể cập nhật thông tin cá nhân.');
-      return false;
-    }
-    finally {
+      resultMessage = (e instanceof Error) ? e.message : 'Không thể cập nhật thông tin cá nhân.';
+      setError(resultMessage);
+    } finally {
       setIsUpdating(false);
     }
+    return resultMessage; // Return the stored message
   }, [token]);
 
-  const updateAddress = useCallback(async (addressId: string, updatedAddress: ShopifyAddressUpdateInput): Promise<boolean> => {
+  const updateAddress = useCallback(async (addressId: string, updatedAddress: ShopifyAddressUpdateInput): Promise<string | null> => {
     if (!token) {
         setError('Bạn chưa đăng nhập.');
-        return false;
+        return 'Bạn chưa đăng nhập.'; // Return string error
     }
 
     setIsUpdating(true);
     setError(null);
+    let resultMessage: string | null = null; // To store the message to be returned
+
     try {
-        const result: ShopifyAddressUpdateResult = await updateCustomerAddress(token, addressId, updatedAddress);
+        const result: ShopifyAddressUpdateResult = await updateCustomerAddress(token, addressId, updatedAddress); // result declared here
         if (result.customerUserErrors && result.customerUserErrors.length > 0) {
-            setError(result.customerUserErrors[0].message);
-            return false;
-        }
-        if (result.customerAddress) {
+            const error = result.customerUserErrors[0];
+            const field = error.field && error.field.length > 0 ? `Trường: ${error.field.join(', ')}. ` : '';
+            resultMessage = `${field}${error.message}`;
+            setError(resultMessage);
+        } else if (result.customerAddress) {
             setCustomerData((prev) => {
                 if (!prev) return null;
                 return {
@@ -94,32 +102,38 @@ export function useCustomerProfile() {
                     } as ShopifyCustomerAddress
                 };
             });
-            return true;
+            resultMessage = null; // Success
+        } else {
+            resultMessage = 'Không thể cập nhật địa chỉ.'; // Fallback if no specific error or customerAddress
+            setError(resultMessage);
         }
-        return false;
     } catch (e: unknown) {
-        setError((e instanceof Error) ? e.message : 'Không thể cập nhật địa chỉ.');
-        return false;
+        resultMessage = (e instanceof Error) ? e.message : 'Không thể cập nhật địa chỉ.';
+        setError(resultMessage);
     } finally {
         setIsUpdating(false);
     }
-}, [token]);
+    return resultMessage; // Return the stored message
+  }, [token]);
 
-const createAddress = useCallback(async (newAddress: ShopifyAddressUpdateInput): Promise<boolean> => {
+const createAddress = useCallback(async (newAddress: ShopifyAddressUpdateInput): Promise<string | null> => {
     if (!token) {
         setError('Bạn chưa đăng nhập.');
-        return false;
+        return 'Bạn chưa đăng nhập.'; // Return string error
     }
 
     setIsUpdating(true);
     setError(null);
+    let resultMessage: string | null = null; // To store the message to be returned
+
     try {
         const result: ShopifyAddressCreateResult = await createCustomerAddress(token, newAddress);
         if (result.customerUserErrors && result.customerUserErrors.length > 0) {
-            setError(result.customerUserErrors[0].message);
-            return false;
-        }
-        if (result.customerAddress) {
+            const error = result.customerUserErrors[0];
+            const field = error.field && error.field.length > 0 ? `Trường: ${error.field.join(', ')}. ` : '';
+            resultMessage = `${field}${error.message}`;
+            setError(resultMessage);
+        } else if (result.customerAddress) {
             await setDefaultCustomerAddress(token, result.customerAddress.id);
             setCustomerData((prev) => {
                 if (!prev) return null;
@@ -128,18 +142,21 @@ const createAddress = useCallback(async (newAddress: ShopifyAddressUpdateInput):
                     defaultAddress: result.customerAddress as ShopifyCustomerAddress
                 };
             });
-            return true;
+            resultMessage = null; // Success
+        } else {
+            resultMessage = 'Không thể tạo địa chỉ.'; // Fallback if no specific error or customerAddress
+            setError(resultMessage);
         }
-        return false;
     } catch (e: unknown) {
-        setError((e instanceof Error) ? e.message : 'Không thể tạo địa chỉ.');
-        return false;
+        resultMessage = (e instanceof Error) ? e.message : 'Không thể tạo địa chỉ.';
+        setError(resultMessage);
     } finally {
         setIsUpdating(false);
     }
-}, [token]);
+    return resultMessage; // Return the stored message
+  }, [token]); // <--- This is the end of createAddress useCallback
 
-  useEffect(() => {
+  useEffect(() => { // <--- Correctly placed useEffect
     if (isLoggedIn) {
       fetchProfile();
     } else {
