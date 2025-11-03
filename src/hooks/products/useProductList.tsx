@@ -20,7 +20,7 @@ export function useProductList(options: ProductsOptions = {sortKey: 'CREATED_AT'
             try {
                 setLoading(true);
                 const response = await getProducts(options);
-                console.log(response);
+                // console.log(response);
                 if (response) {
                     setProducts(response.edges);
                     setPageInfo(response.pageInfo);

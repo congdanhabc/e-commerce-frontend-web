@@ -59,6 +59,13 @@ export type PageInfo = {
   endCursor: string | null;
 };
 
+export type ShopifyCustomerInCart = {
+  id: string;
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+};
+
 export type ShopifyCart = {
   id: string;
   checkoutUrl: string;
@@ -66,6 +73,7 @@ export type ShopifyCart = {
   cost: {
     totalAmount: ShopifyPrice;
     subtotalAmount: ShopifyPrice;
+    totalTaxAmount: ShopifyPrice | null; 
   };
   lines: {
     edges: {
@@ -87,6 +95,12 @@ export type ShopifyCart = {
         };
       };
     }[];
+  };
+  buyerIdentity: {
+    email: string | null;
+    phone: string | null;
+    countryCode: string | null;
+    customer: ShopifyCustomerInCart | null;
   };
 };
 

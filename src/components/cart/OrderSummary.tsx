@@ -1,10 +1,13 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Tag } from "lucide-react";
 
 interface OrderSummaryProps {
   subtotal: string;
+  onCouponChange: (value: string) => void;
+  onApplyDiscount: (e: React.FormEvent) => void;
+  isApplyingDiscount: boolean;
   discount: string;
-  deliveryFee: string;
   total: string;
+  checkoutUrl: string;
 }
 
 // Hàm tiện ích định dạng giá
@@ -17,11 +20,13 @@ const formatter = new Intl.NumberFormat("vi-VN", {
 
 export function OrderSummary({
   subtotal,
+  onCouponChange,
+  onApplyDiscount,
+  isApplyingDiscount,
   discount,
-  deliveryFee,
   total,
+  checkoutUrl
 }: OrderSummaryProps) {
-  // const [promoCode, setPromoCode] = useState("");
 
   return (
     <div className="lg:w-[505px]">
@@ -35,14 +40,14 @@ export function OrderSummary({
           </div>
 
           <div className="flex justify-between items-center">
-            <span className="text-xl text-black/60">Giảm giá (-20%)</span>
+            <span className="text-xl text-black/60">Giảm giá </span>
             <span className="text-xl font-bold text-red-500">- {formatter.format(Number(discount))}</span>
           </div>
 
-          <div className="flex justify-between items-center">
-            <span className="text-xl text-black/60">Phí giao hàng</span>
-            <span className="text-xl font-bold">{formatter.format(Number(deliveryFee))}</span>
-          </div>
+          {/* <div className="flex justify-between items-center">
+            <span className="text-xl text-black/60">Thuế</span>
+            <span className="text-xl font-bold">{formatter.format(Number(tax))}</span>
+          </div> */}
 
           <div className="h-0.5 w-ful my-5 mx-3 bg-black" />
 
@@ -53,27 +58,27 @@ export function OrderSummary({
         </div>
 
         {/* Promo Code */}
-        {/* <div className="flex gap-3">
+        <form onSubmit={onApplyDiscount} className="flex gap-3">
           <div className="flex-1 flex items-center bg-gray-100 rounded-full px-4 py-3 gap-3">
             <Tag className="w-6 h-6 text-black/40" />
             <input
               type="text"
               placeholder="Add promo code"
-              value={promoCode}
-              onChange={(e) => setPromoCode(e.target.value)}
-              className="bg-transparent outline-none flex-1 text-black/40 placeholder:text-black/40"
+              
+              onChange={(e) => onCouponChange(e.target.value)}
+              className="bg-transparent outline-none flex-1 text-black placeholder:text-black/40"
             />
           </div>
-          <button className="rounded-full bg-black text-white hover:bg-black/90 px-6">
-            Apply
+          <button type="submit" disabled={isApplyingDiscount} className="rounded-full bg-black text-white hover:bg-black/90 px-6">
+            {isApplyingDiscount ? '...' : 'Áp dụng'}
           </button>
-        </div> */}
+        </form>
 
         {/* Checkout Button */}
-        <button className="flex items-center justify-center w-full h-15 rounded-full font-medium border-2 bg-white text-black hover:bg-black hover:text-white transition-colors duration-300 ease-in-out">
+        <a href={checkoutUrl} className="flex items-center justify-center w-full h-15 rounded-full font-medium border-2 bg-white text-black hover:bg-black hover:text-white transition-colors duration-300 ease-in-out">
           <span>Đặt hàng</span>
           <ArrowRight />
-        </button>
+        </a>
       </div>
     </div>
   );
