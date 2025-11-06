@@ -21,33 +21,33 @@ export default function Login() {
       <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md border border-gray-100">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Đăng nhập</h2>
 
-        <div className="flex flex-col gap-4">
-          <input
-            type="email"
-            placeholder="Email"
-            className="border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Mật khẩu"
-            className="border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button
-            onClick={handleSubmit}
-            disabled={loading}
-            className={`mt-2 w-full py-3 text-white font-medium rounded-lg transition ${
-              loading
-                ? "bg-blue-300 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
-            }`}
-          >
-            {loading ? "Đang đăng nhập..." : "Đăng nhập"}
-          </button>
-        </div>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <input 
+              type="email"
+              placeholder="Email"
+              className="border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Mật khẩu"
+              className="border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button
+              type="submit"
+              disabled={loading}
+              className={`mt-2 w-full py-3 text-white font-medium rounded-lg transition ${
+                loading
+                  ? "bg-blue-300 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
+            >
+              {loading ? "Đang đăng nhập..." : "Đăng nhập"}
+            </button>
+          </form>
 
         {error && (
           <p className="mt-4 text-center text-sm text-red-600">
@@ -59,6 +59,12 @@ export default function Login() {
           Chưa có tài khoản?{" "}
           <a href="/register" className="text-blue-600 hover:underline font-medium">
             Đăng ký ngay
+          </a>
+        </p>
+        <p className="mt-6 text-center text-sm text-gray-600">
+          Không thể đăng nhập?{" "}
+          <a href="/forgot-password" className="text-blue-600 hover:underline font-medium">
+            Đặt lại mật khẩu
           </a>
         </p>
       </div>

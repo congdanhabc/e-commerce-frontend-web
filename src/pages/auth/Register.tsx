@@ -20,7 +20,8 @@ export default function Register() {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const handleRegister = async (): Promise<void> => {
+  const handleRegister = async (e: React.FormEvent): Promise<void> => {
+    e.preventDefault();
     if (!email || !password || !firstName || !lastName) {
       setMessage("Vui lòng nhập đầy đủ thông tin!");
       return;
@@ -40,7 +41,7 @@ export default function Register() {
       const errors = result.customerUserErrors;
 
       if (errors && errors.length > 0) {
-        setMessage(errors[0].message);
+        setMessage(errors[0].message === "Email has already been taken" ? "Email này đã được đăng ký" : errors[0].message);
       } else {
         setMessage("Đăng ký thành công! Đang chuyển hướng...");
         setTimeout(() => navigate("/login"), 1000);
@@ -57,7 +58,7 @@ export default function Register() {
       <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md border border-gray-100">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Đăng ký</h2>
 
-        <div className="flex flex-col gap-4">
+        <form onSubmit={handleRegister} className="flex flex-col gap-4">
           <input
             placeholder="Họ"
             className="border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
@@ -85,7 +86,7 @@ export default function Register() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button
-            onClick={handleRegister}
+            type="submit"
             disabled={loading}
             className={`mt-2 w-full py-3 text-white font-medium rounded-lg transition ${
               loading
@@ -95,7 +96,7 @@ export default function Register() {
           >
             {loading ? "Đang đăng ký..." : "Đăng ký"}
           </button>
-        </div>
+        </form>
 
         {message && (
           <p className="mt-4 text-center text-sm text-red-600">{message}</p>

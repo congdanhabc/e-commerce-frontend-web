@@ -58,3 +58,28 @@ export async function loginCustomer(email: string, password: string) {
     throw new Error("Không thể đăng nhập khách hàng.");
   }
 }
+
+export async function recoverCustomer(email: string) {
+  const query = `
+    mutation customerRecover($email: String!) {
+      customerRecover(email: $email) {
+        customerUserErrors {
+          code
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const variables = { email };
+
+  try {
+    const response = await storeFront(query, variables);
+    // Trả về toàn bộ kết quả để hook có thể xử lý lỗi
+    return response.data.customerRecover; 
+  } catch (error) {
+    console.error("Lỗi khi yêu cầu khôi phục mật khẩu:", error);
+    throw new Error("Không thể gửi yêu cầu khôi phục mật khẩu.");
+  }
+}

@@ -12,6 +12,7 @@ import ContactPage from "./pages/contact/ContactPage";
 import OrderHistoryPage from "./pages/auth/OrderHistoryPage";
 import ThankyouPage from "./pages/ThankyouPage";
 import HomePage from "./pages/HomePage";
+import ForgotPassword from "./pages/auth/ForgotPassword";
 
 const routes: RouteObject[] = [
     {
@@ -43,6 +44,10 @@ const routes: RouteObject[] = [
             {
                 path: "/register",
                 element: <Register />,
+            },
+            {
+                path: "/forgot-password",
+                element: <ForgotPassword />,
             },
             {
                 path: "/cart",
