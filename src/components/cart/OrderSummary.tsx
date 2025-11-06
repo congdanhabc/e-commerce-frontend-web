@@ -5,7 +5,6 @@ interface OrderSummaryProps {
   onCouponChange: (value: string) => void;
   onApplyDiscount: (e: React.FormEvent) => void;
   isApplyingDiscount: boolean;
-  discount: string;
   total: string;
   checkoutUrl: string;
 }
@@ -23,7 +22,6 @@ export function OrderSummary({
   onCouponChange,
   onApplyDiscount,
   isApplyingDiscount,
-  discount,
   total,
   checkoutUrl
 }: OrderSummaryProps) {
@@ -41,7 +39,7 @@ export function OrderSummary({
 
           <div className="flex justify-between items-center">
             <span className="text-xl text-black/60">Giảm giá </span>
-            <span className="text-xl font-bold text-red-500">- {formatter.format(Number(discount))}</span>
+            <span className="text-xl font-bold text-red-500">- {formatter.format(Number(subtotal) - Number(total))}</span>
           </div>
 
           {/* <div className="flex justify-between items-center">

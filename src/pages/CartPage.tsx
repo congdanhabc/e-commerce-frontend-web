@@ -165,7 +165,6 @@ export default function CartPage() {
             onCouponChange={setCouponCode}
             onApplyDiscount={handleApplyDiscount}
             isApplyingDiscount={actionLoading}
-            discount={"0"}
             total={cartContext.cost.totalAmount.amount}
             checkoutUrl={cartContext.checkoutUrl}
           />
