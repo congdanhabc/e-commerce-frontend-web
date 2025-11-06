@@ -41,7 +41,7 @@ export function useCustomerProfile() {
   const updateProfile = useCallback(async (updatedCustomer: ShopifyCustomerUpdateInput, newPassword?: string): Promise<string | null> => {
     if (!token) {
       setError('Bạn chưa đăng nhập.');
-      return false;
+      return null;
     }
 
     setIsUpdating(true);
