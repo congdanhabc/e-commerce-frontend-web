@@ -1,12 +1,11 @@
-import { useEffect, useState, type ReactNode } from "react"
+import { useState, type ReactNode } from "react"
 import { AuthContext } from "./AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function AuthProvider({ children }: { children: ReactNode})
 {
     const [token, setToken] = useState<string | null>(() => localStorage.getItem("shopifyCustomerAccessToken"));
-
-
+    const navigate = useNavigate();
 
     function onLogin (newToken: string){
         setToken(newToken);

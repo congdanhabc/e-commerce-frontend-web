@@ -10,7 +10,7 @@ export default defineConfig({
   ],
   server: {
     allowedHosts: [
-      "74e07de6c737.ngrok-free.app" // Dán URL của ngrok của bạn vào đây
+      "e-commerce-frontend-web.vercel.app" // Dán URL của ngrok của bạn vào đây
     ]
   }
 })

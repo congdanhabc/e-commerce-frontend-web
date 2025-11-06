@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { Send, Phone, Mail, MapPin, Clock } from 'lucide-react';
 
-// Validation rules
-const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-const PHONE_REGEX = /^(\+84|84|0)[0-9]{9}$/;
-
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
