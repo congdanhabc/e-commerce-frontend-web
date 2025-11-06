@@ -114,8 +114,27 @@ export interface CustomerAccessToken {
   expiresAt: string;
 }
 
-// Kiểu dữ liệu cho toàn bộ phản hồi của mutation đăng nhập
 export interface LoginResult {
   customerAccessToken: CustomerAccessToken | null;
   customerUserErrors: CustomerUserError[];
 }
+
+export type ShopifyOrder = {
+  id: string;
+  orderNumber: number;
+  processedAt: string; // Dạng chuỗi ISO date
+  financialStatus: 'PAID' | 'PENDING' | 'REFUNDED' | 'VOIDED';
+  fulfillmentStatus: 'FULFILLED' | 'UNFULFILLED' | 'PARTIALLY_FULFILLED';
+  totalPrice: ShopifyPrice;
+  lineItems: {
+    edges: {
+      node: {
+        title: string;
+        quantity: number;
+        variant: {
+          image: ShopifyImage | null;
+        } | null;
+      };
+    }[];
+  };
+};

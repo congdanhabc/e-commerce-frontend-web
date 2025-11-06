@@ -79,6 +79,7 @@ export function OrderSummary({
           <span>Đặt hàng</span>
           <ArrowRight />
         </a>
+        <span className="text-sm mt-3">Lưu ý: Nếu cần mật khẩu, nhập: 12345. Sau đó quay về cửa hàng để tiến hành thanh toán lại</span>
       </div>
     </div>
   );

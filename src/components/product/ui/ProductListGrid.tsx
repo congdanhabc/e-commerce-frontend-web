@@ -14,7 +14,7 @@ export default function ProductListGrid({ products }: ProductListGridProps) {
   });
 
   return (
-    <div className="grid grid-cols-3 gap-5 mb-8">
+    <div className={`grid grid-cols-4 gap-5 mb-8`}>
       {products.map((product) => (
         <Link
           key={product.node.id}
@@ -28,10 +28,6 @@ export default function ProductListGrid({ products }: ProductListGridProps) {
               className="w-full h-full object-cover"
             />
           </div>
-          {/* <h3 className="font-bold text-lg mb-2">{product.node.title}</h3>
-                <span className="text-2xl font-bold">
-                    {product.node.priceRange.minVariantPrice.amount.toLocaleString()} đ
-                </span> */}
           <div className="flex flex-col flex-grow px-2">
             <h3 className="font-bold text-lg mb-2 flex-grow">
               {product.node.title}

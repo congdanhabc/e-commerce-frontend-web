@@ -21,9 +21,11 @@ export default function ProductSort({
     <div className="relative group items-center gap-3 text-sm">
       <div className="font-medium flex items-center gap-1">
         
-        <span className="text-black/60">Sắp xếp: {sortKeySelected}</span>
+        <span className="text-black/60">Sắp xếp: 
+        {sortKeyList.find((sortKey) => sortKey.key === sortKeySelected)?.label}
+        </span>
 
-        <button className="w-4 h-4 ml-1 border-1 rounded-2xl bg-gray-200 cursor-pointer" onClick={onChangeReverse}>
+        <button className="flex items-center justify-center w-4 h-4 ml-1 border-1 rounded-2xl bg-gray-200 cursor-pointer" onClick={onChangeReverse}>
           {reverse ? (
             <ChevronUp className="w-4 h-4" />
           ) : (

@@ -9,6 +9,9 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ProfilePage from "./pages/profile/ProfilePage";
 import ContactPage from "./pages/contact/ContactPage";
+import OrderHistoryPage from "./pages/auth/OrderHistoryPage";
+import ThankyouPage from "./pages/ThankyouPage";
+import HomePage from "./pages/HomePage";
 
 const routes: RouteObject[] = [
     {
@@ -19,7 +22,7 @@ const routes: RouteObject[] = [
         children:[
             {
                 path: "/",
-                element: <ProductListPage />,
+                element: <HomePage />,
             },
             {
                 path: "/helloWorld",
@@ -52,6 +55,14 @@ const routes: RouteObject[] = [
             {
                 path: "/contact",
                 element: <ContactPage />,
+            },
+            {
+                path: "/order",
+                element: <OrderHistoryPage />,
+            },
+            {
+                path: "/thank-you",
+                element: <ThankyouPage />,
             },
         ],
     },

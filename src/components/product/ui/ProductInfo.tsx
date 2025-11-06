@@ -88,13 +88,14 @@ export function ProductInfo({ product }: ProductInfoProps) {
           </button>
         </div>
 
-        <div className="flex items-center px-12 h-11 bg-white text-red-500 border-2 border-red-500 hover:bg-red-500 hover:text-white transition-colors duration-200 ease-in-out">
+        {/* <div className="flex items-center px-12 h-11 bg-white text-red-500 border-2 border-red-500 hover:bg-red-500 hover:text-white transition-colors duration-200 ease-in-out">
           Mua ngay
-        </div>
+        </div> */}
 
         <button
           onClick={handleAddToCart}
-          className="w-20 h-10 border border-gray-400 rounded flex items-center justify-center hover:bg-gray-100"
+          // className="w-20 h-10 border border-gray-400 rounded flex items-center justify-center hover:bg-gray-100"
+          className="flex items-center justify-center w-40 px-3 h-11 bg-white text-red-500 border-2 border-red-500 hover:bg-red-500 hover:text-white transition-colors duration-200 ease-in-out"
           disabled={loading}
         >
           {loading ? (

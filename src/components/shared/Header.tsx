@@ -1,4 +1,4 @@
-import { ShoppingCart, Search, User, LogIn, LogOut, UserPlus2 } from "lucide-react";
+import { ShoppingCart, Search, User, LogIn, LogOut, UserPlus2, ListOrderedIcon } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../providers/auth/useContextAuth";
@@ -8,7 +8,7 @@ const navigations = [
   { label: "Trang chủ", href: "/" },
   { label: "Sản phẩm", href: "/products" },
   { label: "Liên hệ", href: "/contact" },
-  { label: "Về chúng tôi", href: "/aboutus" },
+  // { label: "Về chúng tôi", href: "/aboutus" },
 ];
 
 
@@ -118,7 +118,7 @@ export const Header = () => {
                 </Link>
 
                 <ul
-                  className="absolute right-0.5 top-full mt-2 w-36 bg-white shadow-lg rounded-md
+                  className="absolute right-0.5 top-full mt-2 w-50 bg-white shadow-lg rounded-md
                             opacity-0 invisible scale-95 
                             transform transition-all duration-200 ease-in-out
                             group-hover:opacity-100 group-hover:visible group-hover:scale-100 z-1000"
@@ -133,6 +133,17 @@ export const Header = () => {
                           <span className="flex">
                             <User className="text-sm mr-1" />
                             Thông tin cá nhân
+                          </span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/order"
+                          className="block w-full px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 hover:text-red-500 transition-colors"
+                        >
+                          <span className="flex">
+                            <ListOrderedIcon className="text-sm mr-1" />
+                            Lịch sử đặt hàng
                           </span>
                         </Link>
                       </li>
