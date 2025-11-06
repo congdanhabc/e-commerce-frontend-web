@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLogin } from "../../hooks/auth/useLogin";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   // 1. STATE CỤC BỘ CHO FORM INPUT
@@ -57,15 +58,15 @@ export default function Login() {
 
         <p className="mt-6 text-center text-sm text-gray-600">
           Chưa có tài khoản?{" "}
-          <a href="/register" className="text-blue-600 hover:underline font-medium">
+          <Link to="/register" className="text-blue-600 hover:underline font-medium">
             Đăng ký ngay
-          </a>
+          </Link>
         </p>
         <p className="mt-6 text-center text-sm text-gray-600">
           Không thể đăng nhập?{" "}
-          <a href="/forgot-password" className="text-blue-600 hover:underline font-medium">
+          <Link to="/forgot-password" className="text-blue-600 hover:underline font-medium">
             Đặt lại mật khẩu
-          </a>
+          </Link>
         </p>
       </div>
     </div>
