@@ -1,5 +1,3 @@
-import { ChevronDown } from "lucide-react";
-
 export const TopBanner = () => {
   return (
     <div className="bg-black text-white py-3">
@@ -10,7 +8,6 @@ export const TopBanner = () => {
           </div>
           <div className="flex items-center gap-2">
             <span>Tiếng Việt</span>
-            <ChevronDown className="w-4 h-4" />
           </div>
         </div>
       </div>
