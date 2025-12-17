@@ -1,73 +1,74 @@
-# React + TypeScript + Vite
+# ShopBE - Nền tảng E-commerce Headless
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![E-commerce Frontend Web]
 
-Currently, two official plugins are available:
+**E-commerce Frontend Web** là một dự án e-commerce frontend, được xây dựng theo kiến trúc headless. Dự án này sử dụng React và TypeScript để tạo ra một trải nghiệm mua sắm nhanh, mượt mà và có tính đáp ứng (responsive), trong khi toàn bộ dữ liệu sản phẩm, khách hàng và giỏ hàng được quản lý bởi Shopify thông qua GraphQL API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Trang web đang hoạt động:** [e-commerce-frontend-web-mu.vercel.app](https://e-commerce-frontend-web-mu.vercel.app)
+<!-- **Lưu ý:** Hãy đảm bảo link này là link Vercel mới nhất và hoạt động tốt -->
 
-## React Compiler
+---
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## ✨ Các chức năng chính
 
-## Expanding the ESLint configuration
+Dự án này triển khai đầy đủ các chức năng cốt lõi của một trang thương mại điện tử:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🛍️ Trải nghiệm Mua sắm
+*   **Khám phá sản phẩm:** Duyệt xem danh sách sản phẩm theo bộ sưu tập (collections) và thẻ (tags) được lấy trực tiếp từ Shopify.
+*   **Trang chi tiết sản phẩm:** Xem thông tin đầy đủ, hình ảnh và giá của từng sản phẩm.
+*   **Giỏ hàng động:** Thêm, xóa, cập nhật số lượng sản phẩm trong giỏ hàng. Trạng thái giỏ hàng được duy trì nhất quán trong suốt phiên làm việc của người dùng.
+*   **Tìm kiếm sản phẩm:** Tìm kiếm sản phẩm theo tên để nhanh chóng tìm thấy món đồ mong muốn.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 👤 Quản lý Tài khoản Khách hàng
+*   **Đăng ký:** Tạo tài khoản mới an toàn.
+*   **Đăng nhập:** Xác thực người dùng và duy trì phiên đăng nhập.
+*   **Quên mật khẩu & Đặt lại mật khẩu:** Cung cấp một luồng khôi phục tài khoản an toàn thông qua email, tích hợp với API của Shopify.
+*   **Trang tài khoản:** Người dùng có thể xem lại lịch sử đơn hàng và quản lý thông tin cá nhân.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 🛒 Thanh toán
+*   Tích hợp liền mạch với trang thanh toán (checkout) của Shopify để đảm bảo một quy trình an toàn và đáng tin cậy.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Công nghệ sử dụng
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Dự án này được xây dựng bằng các công nghệ và công cụ hiện đại nhất trong hệ sinh thái frontend:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+*   **Framework:** **ReactJS** & **Vite**
+*   **Ngôn ngữ:** **TypeScript**
+*   **Giao diện & Styling:** **Tailwind CSS**
+*   **API & Quản lý dữ liệu:** **GraphQL** (tương tác với Shopify Storefront API)
+*   **Routing:** **React Router**
+*   **Quản lý trạng thái:** **React Hooks**
+*   **Deployment:** **Vercel** & **Git**
+
+---
+
+## 🚀 Hướng dẫn cài đặt và chạy dự án
+
+Để chạy dự án này trên máy tính của bạn, hãy làm theo các bước sau:
+
+1.  **Clone repository:**
+    ```bash
+    git clone https://github.com/congdanhabc/e-commerce-frontend-web.git
+    cd e-commerce-frontend-web
+    ```
+
+2.  **Cài đặt các dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Thiết lập biến môi trường:**
+    *   Tạo một file có tên `.env` trong thư mục gốc của dự án.
+    *   Điền các thông tin của Shopify Storefront API của bạn:
+    ```env
+    VITE_SHOPIFY_STORE_DOMAIN="your-shopify-store.myshopify.com"
+    VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN="your-storefront-access-token"
+    ```
+
+4.  **Chạy server phát triển:**
+    ```bash
+    npm run dev
+    ```
+    Mở trình duyệt và truy cập `http://localhost:5173` (hoặc cổng mà terminal hiển thị).
