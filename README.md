@@ -1,11 +1,8 @@
-# ShopBE - Nền tảng E-commerce Headless
-
-![E-commerce Frontend Web]
+# E-commerce Frontend Web
 
 **E-commerce Frontend Web** là một dự án e-commerce frontend, được xây dựng theo kiến trúc headless. Dự án này sử dụng React và TypeScript để tạo ra một trải nghiệm mua sắm nhanh, mượt mà và có tính đáp ứng (responsive), trong khi toàn bộ dữ liệu sản phẩm, khách hàng và giỏ hàng được quản lý bởi Shopify thông qua GraphQL API.
 
-**Trang web đang hoạt động:** [e-commerce-frontend-web-mu.vercel.app](https://e-commerce-frontend-web-mu.vercel.app)
-<!-- **Lưu ý:** Hãy đảm bảo link này là link Vercel mới nhất và hoạt động tốt -->
+**Đường dẫn trang web:** [e-commerce-frontend-web-mu.vercel.app](https://e-commerce-frontend-web-mu.vercel.app)
 
 ---
 
