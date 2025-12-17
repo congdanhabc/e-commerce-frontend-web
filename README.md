@@ -1,6 +1,6 @@
 # E-commerce Frontend Web
 
-**E-commerce Frontend Web** là một dự án e-commerce frontend, được xây dựng theo kiến trúc headless. Dự án này sử dụng React và TypeScript để tạo ra một trải nghiệm mua sắm nhanh, mượt mà và có tính đáp ứng (responsive), trong khi toàn bộ dữ liệu sản phẩm, khách hàng và giỏ hàng được quản lý bởi Shopify thông qua GraphQL API.
+**E-commerce Frontend Web** là một dự án được xây dựng theo kiến trúc headless. Dự án này sử dụng React và TypeScript để tạo ra một trải nghiệm mua sắm nhanh và mượt mà, trong khi toàn bộ dữ liệu sản phẩm, khách hàng và giỏ hàng được quản lý bởi Shopify thông qua GraphQL API.
 
 **Đường dẫn trang web:** [e-commerce-frontend-web-mu.vercel.app](https://e-commerce-frontend-web-mu.vercel.app)
 
@@ -13,17 +13,14 @@ Dự án này triển khai đầy đủ các chức năng cốt lõi của một
 ### 🛍️ Trải nghiệm Mua sắm
 *   **Khám phá sản phẩm:** Duyệt xem danh sách sản phẩm theo bộ sưu tập (collections) và thẻ (tags) được lấy trực tiếp từ Shopify.
 *   **Trang chi tiết sản phẩm:** Xem thông tin đầy đủ, hình ảnh và giá của từng sản phẩm.
-*   **Giỏ hàng động:** Thêm, xóa, cập nhật số lượng sản phẩm trong giỏ hàng. Trạng thái giỏ hàng được duy trì nhất quán trong suốt phiên làm việc của người dùng.
-*   **Tìm kiếm sản phẩm:** Tìm kiếm sản phẩm theo tên để nhanh chóng tìm thấy món đồ mong muốn.
+*   **Giỏ hàng động:** Thêm, xóa, cập nhật số lượng sản phẩm trong giỏ hàng.
+*   **Tìm kiếm sản phẩm:** Tìm kiếm sản phẩm theo tên, theo các tiêu chí lọc và sắp xếp để nhanh chóng tìm thấy món đồ mong muốn.
 
 ### 👤 Quản lý Tài khoản Khách hàng
 *   **Đăng ký:** Tạo tài khoản mới an toàn.
 *   **Đăng nhập:** Xác thực người dùng và duy trì phiên đăng nhập.
 *   **Quên mật khẩu & Đặt lại mật khẩu:** Cung cấp một luồng khôi phục tài khoản an toàn thông qua email, tích hợp với API của Shopify.
 *   **Trang tài khoản:** Người dùng có thể xem lại lịch sử đơn hàng và quản lý thông tin cá nhân.
-
-### 🛒 Thanh toán
-*   Tích hợp liền mạch với trang thanh toán (checkout) của Shopify để đảm bảo một quy trình an toàn và đáng tin cậy.
 
 ---
 
